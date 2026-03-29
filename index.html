@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Super Mario – Teachable Machine</title>
+
+  <!-- ── Librerías externas (P5 + ML5) ── -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+  <script src="https://unpkg.com/ml5@1/dist/ml5.min.js"></script>
+
+  <!-- ── Módulos del juego (ORDEN IMPORTANTE) ── -->
+  <script src="js/config.js"></script>    <!-- 1. Constantes y STATE global    -->
+  <script src="js/entities.js"></script>  <!-- 2. Clases: Mario, Goomba, etc.  -->
+  <script src="js/controls.js"></script>  <!-- 3. ML5 Teachable Machine         -->
+  <script src="js/level.js"></script>     <!-- 4. Generador y lógica del nivel  -->
+  <script src="js/renderer.js"></script>  <!-- 5. Todo el dibujo (P5)           -->
+  <script src="js/ui.js"></script>        <!-- 6. HUD, pantallas, cámara        -->
+  <script src="js/sketch.js"></script>    <!-- 7. Setup/Draw principal de P5    -->
+
+  <style>
+    /* ── Reset ── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: radial-gradient(ellipse at 50% 40%, #0d1b3e 0%, #050810 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Courier New', monospace;
+      gap: 18px;
+    }
+
+    /* ── Título ── */
+    header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    header h1 {
+      color: #f7c948;
+      font-size: 1.55rem;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      text-shadow: 0 0 18px #f7c94888;
+    }
+    header .badge {
+      background: #dc2828;
+      color: #fff;
+      font-size: 0.68rem;
+      padding: 3px 9px;
+      border-radius: 20px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    /* ── Canvas container ── */
+    #game-container {
+      position: relative;
+      line-height: 0;
+    }
+    #game-container canvas {
+      display: block;
+      border: 3px solid #f7c94866;
+      border-radius: 4px;
+      box-shadow: 0 0 50px #f7c94822, 0 8px 40px rgba(0,0,0,0.6);
+    }
+
+    /* ── Instrucciones del modelo ── */
+    .tm-instructions {
+      background: #0d1730cc;
+      border: 1px solid #2a4080;
+      border-radius: 10px;
+      padding: 14px 24px;
+      max-width: 900px;
+      width: 100%;
+    }
+    .tm-instructions h2 {
+      color: #80b0ff;
+      font-size: 0.82rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .tm-steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 10px;
+    }
+    .tm-step {
+      background: #121e3a;
+      border-radius: 8px;
+      padding: 10px 14px;
+      border-left: 3px solid;
+    }
+    .tm-step:nth-child(1) { border-color: #f7c948; }
+    .tm-step:nth-child(2) { border-color: #60b8ff; }
+    .tm-step:nth-child(3) { border-color: #60e880; }
+    .tm-step:nth-child(4) { border-color: #ff8040; }
+    .tm-step .num  { font-size: 0.7rem; color: #8899bb; margin-bottom: 4px; }
+    .tm-step .desc { font-size: 0.82rem; color: #ddeeff; line-height: 1.45; }
+    .tm-step code  { background: #1e2e50; padding: 1px 5px; border-radius: 3px; color: #f7c948; font-size: 0.78rem; }
+
+    /* ── Footer ── */
+    footer {
+      color: #445;
+      font-size: 0.72rem;
+      letter-spacing: 2px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>🍄 Super Mario Bros 3</h1>
+    <span class="badge">Teachable Machine</span>
+  </header>
+
+  <div id="game-container"></div>
+
+  <!-- ── Guía de configuración del modelo ── -->
+  <section class="tm-instructions">
+    <h2>📋 Configuración del modelo Teachable Machine</h2>
+    <div class="tm-steps">
+      <div class="tm-step">
+        <div class="num">PASO 1 · ENTRENAR</div>
+        <div class="desc">
+          Ve a <code>teachablemachine.withgoogle.com</code> → Nuevo proyecto → Imagen estándar.
+          Crea 4 clases: <code>arriba</code> · <code>derecha</code> · <code>izquierda</code> · <code>neutral</code>.
+          Graba ~50 fotos por clase con tu cámara.
+        </div>
+      </div>
+      <div class="tm-step">
+        <div class="num">PASO 2 · EXPORTAR</div>
+        <div class="desc">
+          Clic en <strong>Exportar modelo</strong> → pestaña <strong>Tensorflow.js</strong> →
+          <strong>Subir modelo</strong>. Copia la URL que termina en <code>/model.json</code>.
+        </div>
+      </div>
+      <div class="tm-step">
+        <div class="num">PASO 3 · CONFIGURAR</div>
+        <div class="desc">
+          Abre <code>js/controls.js</code> y reemplaza <code>YOUR_MODEL_ID</code> en
+          la variable <code>MODEL_URL</code> con la URL de tu modelo exportado.
+        </div>
+      </div>
+      <div class="tm-step">
+        <div class="num">PASO 4 · JUGAR</div>
+        <div class="desc">
+          Abre <code>index.html</code> con un servidor local (VSCode Live Server, o
+          <code>python -m http.server</code>).
+          Acepta el permiso de cámara. ¡A jugar! 🎮
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>Solo P5.js + ML5.js · Sin otros frameworks · Modo demo con teclado disponible sin modelo</footer>
+
+</body>
+</html>
