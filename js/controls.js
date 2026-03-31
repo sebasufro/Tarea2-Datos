@@ -8,18 +8,18 @@ const Controls = (() => {
   // ── Configuración ────────────────────────────────────────────
   //  REEMPLAZA esta URL con la URL de TU modelo entrenado en
   //  https://teachablemachine.withgoogle.com/train/image
-  const MODEL_URL = 'https://teachablemachine.withgoogle.com/models/YOUR_MODEL_ID/';
+  const MODEL_URL = 'https://teachablemachine.withgoogle.com/models/6j-qh6c2S/';
 
   // Nombres de clase EXACTOS según tu modelo de Teachable Machine
   const CLASS = {
-    UP:      'arriba',
-    RIGHT:   'derecha',
-    LEFT:    'izquierda',
-    NEUTRAL: 'neutral',
+    UP:      'Arriba',
+    RIGHT:   'Derecha',
+    LEFT:    'Izquierda',
+    NEUTRAL: 'Neutral',
   };
 
   // Umbral de confianza mínima para considerar un gesto válido (0-1)
-  const CONFIDENCE_THRESHOLD = 0.72;
+  const CONFIDENCE_THRESHOLD = 0.80;
 
   // ── Estado del control ───────────────────────────────────────
   let _classifier   = null;
