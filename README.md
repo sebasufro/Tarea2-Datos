@@ -1,12 +1,12 @@
-# 🍄 Super Mario Bros 3 — Teachable Machine Edition
+# Super Mario Bros 3 — Teachable Machine Edition
 **Tarea 2 · Implementación de Juego con P5.js + ML5.js**
 
 ---
 
-## 📁 Estructura del proyecto
+## Estructura del proyecto
 
 ```
-mario-game/
+tarea2-datos/
 │
 ├── index.html              ← Entrada principal (carga todos los scripts)
 │
@@ -22,7 +22,7 @@ mario-game/
 
 ---
 
-## 🤙 Clases del modelo Teachable Machine
+## Clases del modelo Teachable Machine
 
 | Clase      | Gesto sugerido            | Acción en el juego  |
 |------------|---------------------------|---------------------|
@@ -35,7 +35,7 @@ mario-game/
 
 ---
 
-## ⚙️ Cómo configurar el modelo
+## Cómo configurar el modelo
 
 ### 1. Entrenar en Teachable Machine
 1. Ve a https://teachablemachine.withgoogle.com/train/image
@@ -72,12 +72,11 @@ python -m http.server 8080
 npx serve .
 ```
 
-> ⚠️ Debe correr en un servidor local (no file://) porque la cámara
-> requiere contexto seguro (localhost o HTTPS).
+> Debe correr en un servidor local (no file://) porque la cámara requiere contexto seguro (localhost o HTTPS).
 
 ---
 
-## 🎮 Controles del modo demo (sin modelo TM)
+## Controles del modo demo (sin modelo TM)
 
 Si `controls.js` tiene `YOUR_MODEL_ID` sin reemplazar, el juego
 activa automáticamente el **modo demo con teclado**:
@@ -91,7 +90,7 @@ activa automáticamente el **modo demo con teclado**:
 
 ---
 
-## 📦 Librerías utilizadas (ÚNICAS permitidas)
+## Librerías utilizadas (ÚNICAS permitidas)
 
 ```html
 <!-- P5.js 1.9.0 -->
@@ -105,7 +104,7 @@ activa automáticamente el **modo demo con teclado**:
 
 ---
 
-## 🔧 Umbral de confianza
+## Umbral de confianza
 
 En `js/controls.js`, ajusta `CONFIDENCE_THRESHOLD` (por defecto `0.72`):
 
@@ -118,7 +117,7 @@ const CONFIDENCE_THRESHOLD = 0.72; // 0.0 - 1.0
 
 ---
 
-## 🗂️ Responsabilidad de cada archivo
+## Responsabilidad de cada archivo
 
 | Archivo       | Responsabilidad |
 |---------------|-----------------|
