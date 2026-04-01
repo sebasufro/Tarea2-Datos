@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Super Mario – Teachable Machine</title>
+  <title>Super Mario con Gestos</title>
 
   <!-- ── Librerías externas (P5 + ML5) ── -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
@@ -114,50 +114,12 @@
 <body>
 
   <header>
-    <h1>🍄 Super Mario Bros 3</h1>
-    <span class="badge">Teachable Machine</span>
+    <h1>Super Mario Bros 3</h1>
   </header>
 
   <div id="game-container"></div>
 
-  <!-- ── Guía de configuración del modelo ── -->
-  <section class="tm-instructions">
-    <h2>📋 Configuración del modelo Teachable Machine</h2>
-    <div class="tm-steps">
-      <div class="tm-step">
-        <div class="num">PASO 1 · ENTRENAR</div>
-        <div class="desc">
-          Ve a <code>teachablemachine.withgoogle.com</code> → Nuevo proyecto → Imagen estándar.
-          Crea 4 clases: <code>arriba</code> · <code>derecha</code> · <code>izquierda</code> · <code>neutral</code>.
-          Graba ~50 fotos por clase con tu cámara.
-        </div>
-      </div>
-      <div class="tm-step">
-        <div class="num">PASO 2 · EXPORTAR</div>
-        <div class="desc">
-          Clic en <strong>Exportar modelo</strong> → pestaña <strong>Tensorflow.js</strong> →
-          <strong>Subir modelo</strong>. Copia la URL que termina en <code>/model.json</code>.
-        </div>
-      </div>
-      <div class="tm-step">
-        <div class="num">PASO 3 · CONFIGURAR</div>
-        <div class="desc">
-          Abre <code>js/controls.js</code> y reemplaza <code>YOUR_MODEL_ID</code> en
-          la variable <code>MODEL_URL</code> con la URL de tu modelo exportado.
-        </div>
-      </div>
-      <div class="tm-step">
-        <div class="num">PASO 4 · JUGAR</div>
-        <div class="desc">
-          Abre <code>index.html</code> con un servidor local (VSCode Live Server, o
-          <code>python -m http.server</code>).
-          Acepta el permiso de cámara. ¡A jugar! 🎮
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <footer>Solo P5.js + ML5.js · Sin otros frameworks · Modo demo con teclado disponible sin modelo</footer>
+  <footer>Modo demo con teclado disponible sin modelo</footer>
 
 </body>
 </html>
